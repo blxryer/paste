@@ -12,8 +12,13 @@ export class Utils {
   }
 
   public static splitArray<T>(array: T[], chunkSize: number = 50): T[][] {
-    return Array.from({ length: Math.ceil(array.length / chunkSize) }, (_, i) =>
-      array.slice(i * chunkSize, (i + 1) * chunkSize)
-    );
+    const length = array.length;
+    const chunks: T[][] = [];
+
+    for (let i = 0; i < length; i += chunkSize) {
+      chunks.push(array.slice(i, i + chunkSize));
+    }
+
+    return chunks;
   }
 }
