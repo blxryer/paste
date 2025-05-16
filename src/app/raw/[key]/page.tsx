@@ -1,4 +1,4 @@
-import { db } from '@/misc/Database';
+import { Utils } from '@/utils/utils';
 import { redirect } from 'next/navigation';
 
 type PageParams = {
@@ -12,10 +12,7 @@ export default async function Paste({ params }: PageParams) {
 
   const [pasteId] = key.split('.');
 
-  const data = await db.queryOne<{ content: string }>(
-    `SELECT content FROM pastes WHERE id = '${pasteId}'`
-  );
-
+  const data = await Utils.getPasteById(pasteId);
   if (!data) {
     return redirect('/');
   }

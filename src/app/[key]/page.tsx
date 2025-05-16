@@ -1,5 +1,5 @@
 import { redirect } from 'next/navigation';
-import { db } from '@/misc/Database';
+import { Utils } from '@/utils/utils';
 import { SyntaxHighlight } from '@/components/syntax-highlight';
 import { Footer } from '@/components/footer';
 
@@ -14,10 +14,7 @@ export default async function Paste({ params }: PageParams) {
 
   const [pasteId, extension] = key.split('.');
 
-  const data = await db.queryOne<{ content: string }>(
-    `SELECT content FROM pastes WHERE id = '${pasteId}'`
-  );
-
+  const data = await Utils.getPasteById(pasteId);
   if (!data) {
     return redirect('/');
   }

@@ -1,17 +1,16 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { badRequest, internalServerError } from '@/app/api/ApiErrors';
 import { db } from '@/misc/Database';
 import { Utils } from '@/utils/utils';
 
 export async function POST(request: NextRequest) {
   try {
-    const data = await request.json();
-    if (!data.content) {
-      return badRequest({ error: 'missing content' });
+    const content = await request.text();
+    if (!content) {
+      return NextResponse.json({ error: 'bad request', message: 'no content provided' }, { status: 400 });
     }
 
     const pasteId = await Utils.createId();
-    await db.insert('pastes', ['id', 'content'], [pasteId, data.content]);
+    await db.insert('pastes', ['id', 'content'], [pasteId, content]);
 
     return NextResponse.json({
       key: pasteId,
@@ -19,6 +18,6 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error processing POST request:', error);
-    return internalServerError();
+    return NextResponse.json({ error: 'internal server error', message: 'failed creating paste' }, { status: 500 });
   }
 }

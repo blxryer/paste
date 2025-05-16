@@ -16,12 +16,12 @@ export default function Home() {
   const handleSave = useCallback(() => {
     if (!content.trim()) return;
 
-    fetch('/api/document', {
+    fetch('/documents', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'text/plain'
       },
-      body: JSON.stringify({ content })
+      body: content
     })
       .then((res) => {
         if (res.ok) {

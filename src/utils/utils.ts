@@ -3,9 +3,9 @@ import { db } from '@/misc/Database';
 export class Utils {
   private static readonly charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
-  public static async createId(): Promise<string | null> {
+  public static async createId(): Promise<string> {
     let hasId = true;
-    let pasteId: string | null = null;
+    let pasteId: string = '';
 
     while (hasId) {
       const randomValues = new Uint32Array(10);
@@ -22,14 +22,7 @@ export class Utils {
     return pasteId;
   }
 
-  public static splitArray<T>(array: T[], chunkSize: number = 50): T[][] {
-    const length = array.length;
-    const chunks: T[][] = [];
-
-    for (let i = 0; i < length; i += chunkSize) {
-      chunks.push(array.slice(i, i + chunkSize));
-    }
-
-    return chunks;
+  public static async getPasteById(pasteId: string): Promise<{ content: string } | null> {
+    return await db.queryOne<{ content: string }>(`SELECT content FROM pastes WHERE id = {id:String}`, { id: pasteId });
   }
 }
