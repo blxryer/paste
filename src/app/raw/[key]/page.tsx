@@ -2,12 +2,11 @@ import { Utils } from '@/utils/utils';
 import { redirect } from 'next/navigation';
 
 type PageParams = {
-  params: {
-    key: string;
-  };
+  key: string;
 };
 
-export default async function Paste({ params }: PageParams) {
+
+export default async function Paste({ params }: { params: Promise<PageParams> }) {
   const { key = '' } = await params;
 
   const [pasteId] = key.split('.');

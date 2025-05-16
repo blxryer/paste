@@ -4,12 +4,10 @@ import { SyntaxHighlight } from '@/components/syntax-highlight';
 import { Footer } from '@/components/footer';
 
 type PageParams = {
-  params: {
     key: string;
-  };
 };
 
-export default async function Paste({ params }: PageParams) {
+export default async function Paste({ params }: { params: Promise<PageParams> })  {
   const { key = '' } = await params;
 
   const [pasteId, extension] = key.split('.');
