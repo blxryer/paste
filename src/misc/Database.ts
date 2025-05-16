@@ -47,20 +47,24 @@ export class db {
   static async insert(
     table: string,
     columns: string[],
-    values: readonly (string | number | boolean)[][]
+    values: readonly (string | number | boolean)[]
   ): Promise<boolean> {
     try {
       const client = this.getClient();
       await client.insert({
         table: table,
         format: 'JSONEachRow',
-        values: values.map((value) => {
-          const entry: Record<string, string | number | boolean | null> = {};
-          columns.forEach((col, index) => {
-            entry[col] = value[index];
-          });
-          return entry;
-        })
+        values: [
+          {
+            ...columns.reduce(
+              (acc, col, index) => {
+                acc[col] = values[index];
+                return acc;
+              },
+              {} as Record<string, string | number | boolean | null>
+            )
+          }
+        ]
       });
       return true;
     } catch (e) {
