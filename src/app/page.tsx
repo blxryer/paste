@@ -29,7 +29,7 @@ export default function Home() {
         throw new Error('failed to save paste');
       })
       .then((data) => {
-        router.push(`/${data.id}`);
+        router.push(`/${data.key}`);
       })
       .catch((error) => {
         console.error('error saving paste:', error);

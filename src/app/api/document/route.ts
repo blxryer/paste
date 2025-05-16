@@ -14,7 +14,8 @@ export async function POST(request: NextRequest) {
     await db.insert('pastes', ['id', 'content'], [pasteId, data.content]);
 
     return NextResponse.json({
-      id: pasteId
+      key: pasteId,
+      raw: `/raw/${pasteId}`
     });
   } catch (error) {
     console.error('Error processing POST request:', error);
