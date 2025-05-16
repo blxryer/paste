@@ -1,45 +1,41 @@
 import { ClickHouseClient, createClient } from '@clickhouse/client';
 import { config } from '@/config';
 
-type QueryParams = readonly (string | number | boolean)[];
-type QueryResult = Record<string, string | number | boolean | null>;
-
 export class db {
   private static client: ClickHouseClient | null = null;
 
-  static async query(queryStr: string, params: QueryParams = []): Promise<QueryResult[]> {
+  static async query<T>(query: string, params?: Record<string, unknown>): Promise<T[]> {
     try {
       const client = this.getClient();
       const result = await client.query({
-        query: queryStr,
-        format: 'JSON',
-        query_params: Object.fromEntries(params.map((param, index) => [`param${index}`, param]))
+        query: query,
+        query_params: params,
+        format: 'JSONEachRow'
       });
 
-      const jsonResult = await result.json();
-      return jsonResult.data as QueryResult[];
-    } catch (e) {
-      console.error('ClickHouse Query Error:', e);
+      return await result.json<T>();
+    } catch (error) {
+      console.error('ClickHouse Query Error:', error);
       return [];
     }
   }
 
-  static async queryOne(
-    queryStr: string,
-    params: QueryParams = [],
-    addLimit = true
-  ): Promise<QueryResult | false> {
-    const modifiedQuery = addLimit ? `${queryStr} LIMIT 1` : queryStr;
-    const result = await this.query(modifiedQuery, params);
-    return result?.[0] || false;
+  static async queryOne<T>(
+    query: string,
+    params?: Record<string, unknown>,
+    addLimit: boolean = true
+  ): Promise<T | false> {
+    const modifiedQuery = addLimit ? `${query} LIMIT 1` : query;
+    const result = await this.query<T>(modifiedQuery, params);
+    return result[0] || false;
   }
 
   static async entryExists(
-    queryStr: string,
-    params: QueryParams = [],
-    addLimit = true
+    query: string,
+    params?: Record<string, unknown>,
+    addLimit: boolean = true
   ): Promise<boolean> {
-    const modifiedQuery = addLimit ? `${queryStr} LIMIT 1` : queryStr;
+    const modifiedQuery = addLimit ? `${query} LIMIT 1` : query;
     const result = await this.query(modifiedQuery, params);
     return result.length > 0;
   }
@@ -67,8 +63,8 @@ export class db {
         ]
       });
       return true;
-    } catch (e) {
-      console.error('ClickHouse Insert Error:', e);
+    } catch (error) {
+      console.error('ClickHouse Insert Error:', error);
       return false;
     }
   }
