@@ -1,7 +1,6 @@
 CREATE TABLE pastes (
     id String,
     content String,
-    created_at DateTime DEFAULT now(),
-    CONSTRAINT unique_id UNIQUE (id)
+    created_at DateTime DEFAULT now()
 ) ENGINE = MergeTree()
 ORDER BY id
