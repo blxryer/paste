@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation';
 import { db } from '@/misc/Database';
 import { SyntaxHighlight } from '@/components/syntax-highlight';
+import { Footer } from '@/components/footer';
 
 type PageParams = {
   params: {
@@ -21,5 +22,10 @@ export default async function Paste({ params }: PageParams) {
     return redirect('/');
   }
 
-  return <SyntaxHighlight content={data.content} extension={extension} />;
+  return (
+    <>
+      <SyntaxHighlight content={data.content} extension={extension} />
+      <Footer />
+    </>
+  );
 }

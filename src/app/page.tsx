@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { Footer } from '@/components/footer';
 
 export default function Home() {
   const router = useRouter();
@@ -68,19 +69,7 @@ export default function Home() {
         value={content}
         onChange={(e) => setContent(e.target.value)}
       />
-      <footer>
-        <div className="about">
-          <a href="https://github.com/susgee-dev/susgee-paste" target="_blank">
-            GitHub
-          </a>
-        </div>
-        <div className="actions">
-          <button onClick={handleSave} disabled={!content.trim()}>
-            Save
-          </button>
-          <button onClick={handleNew}>New</button>
-        </div>
-      </footer>
+      <Footer canSave={!!content.trim()} onSave={handleSave} onNew={handleNew} />
     </>
   );
 }
