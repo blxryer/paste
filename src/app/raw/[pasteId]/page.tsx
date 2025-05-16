@@ -17,5 +17,5 @@ export default async function Paste({ params }: PageParams) {
 
   const content = data.content;
 
-  return content;
+  return <pre>{content}</pre>;
 }

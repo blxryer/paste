@@ -7,7 +7,7 @@ export async function POST(request: NextRequest) {
   try {
     const content = await request.json();
 
-    const pasteId = Utils.createId();
+    const pasteId = await Utils.createId();
     await db.insert('pastes', ['id', 'content'], [pasteId, content]);
 
     return NextResponse.json({

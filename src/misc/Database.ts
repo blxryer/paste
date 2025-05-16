@@ -24,10 +24,10 @@ export class db {
     query: string,
     params?: Record<string, unknown>,
     addLimit: boolean = true
-  ): Promise<T | false> {
+  ): Promise<T | null> {
     const modifiedQuery = addLimit ? `${query} LIMIT 1` : query;
     const result = await this.query<T>(modifiedQuery, params);
-    return result[0] || false;
+    return result[0] || null;
   }
 
   static async entryExists(
@@ -74,7 +74,7 @@ export class db {
       this.client = createClient({
         url: `${config.db.host}:${config.db.port}`,
         username: config.db.user,
-        password: config.db.pass,
+        password: '',
         database: config.db.name
       });
     }

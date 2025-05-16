@@ -1,14 +1,25 @@
+import { db } from '@/misc/Database';
+
 export class Utils {
   private static readonly charset = 'abcdefghijklmnopqrstuvwxyz0123456789';
 
-  public static createId(): string {
-    const randomValues = new Uint32Array(10);
+  public static async createId(): Promise<string | null> {
+    let hasId = true;
+    let pasteId: string | null = null;
 
-    crypto.getRandomValues(randomValues);
+    while (hasId) {
+      const randomValues = new Uint32Array(10);
 
-    return Array.from(randomValues)
-      .map((x) => this.charset[x % this.charset.length])
-      .join('');
+      crypto.getRandomValues(randomValues);
+
+      pasteId = Array.from(randomValues)
+        .map((x) => this.charset[x % this.charset.length])
+        .join('');
+
+      hasId = await db.entryExists('SELECT 1 FROM pastes WHERE id = {id:String}', { id: pasteId });
+    }
+
+    return pasteId;
   }
 
   public static splitArray<T>(array: T[], chunkSize: number = 50): T[][] {
