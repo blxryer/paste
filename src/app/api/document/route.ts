@@ -1,14 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { internalServerError } from '@/app/api/ApiErrors';
+import { badRequest, internalServerError } from '@/app/api/ApiErrors';
 import { db } from '@/misc/Database';
 import { Utils } from '@/utils/utils';
 
 export async function POST(request: NextRequest) {
   try {
-    const content = await request.json();
+    const data = await request.json();
+    if (!data.content) {
+      return badRequest({ error: 'missing content' });
+    }
 
     const pasteId = await Utils.createId();
-    await db.insert('pastes', ['id', 'content'], [pasteId, content]);
+    await db.insert('pastes', ['id', 'content'], [pasteId, data.content]);
 
     return NextResponse.json({
       id: pasteId

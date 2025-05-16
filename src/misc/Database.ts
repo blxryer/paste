@@ -74,7 +74,7 @@ export class db {
       this.client = createClient({
         url: `${config.db.host}:${config.db.port}`,
         username: config.db.user,
-        password: '',
+        password: config.db.pass,
         database: config.db.name
       });
     }

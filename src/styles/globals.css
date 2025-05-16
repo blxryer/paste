@@ -33,3 +33,9 @@ a:hover {
   text-decoration-thickness: 2px;
   text-decoration-color: var(--color-text);
 }
+
+pre {
+  margin: 0 !important;
+  padding: 20px;
+  flex: 1;
+}
