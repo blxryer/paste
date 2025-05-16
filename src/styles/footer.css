@@ -1,0 +1,19 @@
+footer {
+  padding: 16px 32px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+  background: var(--color-background-light);
+
+  .about {
+    flex: 1;
+  }
+
+  .actions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+  }
+}
