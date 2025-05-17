@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       key: pasteId,
-      raw: `/raw/${pasteId}`
+      raw: `raw/${pasteId}`
     });
   } catch (error) {
     console.error('Error processing POST request:', error);
