@@ -6,7 +6,10 @@ export async function POST(request: NextRequest) {
   try {
     const content = await request.text();
     if (!content) {
-      return NextResponse.json({ error: 'bad request', message: 'no content provided' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'bad request', message: 'no content provided' },
+        { status: 400 }
+      );
     }
 
     const pasteId = await Utils.createId();
@@ -18,6 +21,9 @@ export async function POST(request: NextRequest) {
     });
   } catch (error) {
     console.error('Error processing POST request:', error);
-    return NextResponse.json({ error: 'internal server error', message: 'failed creating paste' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'internal server error', message: 'failed creating paste' },
+      { status: 500 }
+    );
   }
 }

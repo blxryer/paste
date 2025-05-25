@@ -23,6 +23,9 @@ export class Utils {
   }
 
   public static async getPasteById(pasteId: string): Promise<{ content: string } | null> {
-    return await db.queryOne<{ content: string }>(`SELECT content FROM pastes WHERE id = {id:String}`, { id: pasteId });
+    return await db.queryOne<{ content: string }>(
+      'SELECT content FROM pastes WHERE id = {id:String}',
+      { id: pasteId }
+    );
   }
 }

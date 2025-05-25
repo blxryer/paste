@@ -36,6 +36,10 @@ a:hover {
 
 pre {
   margin: 0 !important;
-  padding: 20px;
+  padding: 1em;
   flex: 1;
+}
+
+.linenumber {
+  min-width: 3em !important;
 }
