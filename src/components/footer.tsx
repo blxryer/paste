@@ -22,7 +22,7 @@ export function Footer({ canSave = false, onSave, onNew }: FooterProps) {
   return (
     <footer>
       <div className="about">
-        <a href="https://github.com/susgee-dev/susgee-paste" target="_blank">
+        <a href="https://github.com/blxryer/paste" target="_blank">
           GitHub
         </a>
       </div>

@@ -4,8 +4,8 @@ import React from 'react';
 
 export const metadata: Metadata = {
   title: {
-    default: 'susgee-paste',
-    template: '%s | susgee-paste'
+    default: 'paste',
+    template: '%s | paste'
   },
   icons: {
     icon: '/favicon.ico'
