@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@clickhouse/client": "^1.11.1",
-    "next": "15.3.6",
+    "next": "15.3.8",
     "react": "^19.0.0",
     "react-syntax-highlighter": "^15.6.1"
   },
